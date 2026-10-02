@@ -33,11 +33,12 @@ export function CitySearch({ onSelect }: CitySearchProps) {
       )}
       {!isFetching && !!cities?.length && (
         <ul className="divide-y rounded-lg border">
-          {cities.map((city) => (
+          {cities.map((city, idx, arr) => (
             <li key={city.id}>
               <button
                 type="button"
-                className="w-full px-3 py-2 text-left text-sm hover:bg-accent"
+                className={`w-full px-3 py-2 text-left text-sm hover:bg-accent 
+                    ${idx === 0 ? "rounded-t-lg" : idx === arr.length - 1 ? "rounded-b-lg" : ""}`}
                 onClick={() => {
                   onSelect(city);
                   setQuery("");
