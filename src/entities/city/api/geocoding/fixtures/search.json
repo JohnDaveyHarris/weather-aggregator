@@ -1,0 +1,25 @@
+{
+  "generationtime_ms": 0.4,
+  "results": [
+    {
+      "id": 524901,
+      "name": "Москва",
+      "latitude": 55.75222,
+      "longitude": 37.61556,
+      "country": "Россия",
+      "admin1": "Москва",
+      "timezone": "Europe/Moscow",
+      "population": 10381222
+    },
+    {
+      "id": 498817,
+      "name": "Санкт-Петербург",
+      "latitude": 59.93863,
+      "longitude": 30.31413,
+      "country": "Россия",
+      "admin1": "Санкт-Петербург",
+      "timezone": "Europe/Moscow",
+      "population": 5384262
+    }
+  ]
+}
