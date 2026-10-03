@@ -1,5 +1,6 @@
 import {
   Card,
+    CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -10,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { City } from "@/entities/city/model/types";
 import type { WeatherCondition } from "@/entities/weather/model/types";
 import type { ProviderState } from "@/entities/weather/model/useAllWeather";
+import {FavoriteToggle} from "@/features/favorites/ui/FavoriteToggle.tsx";
 
 const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
   {
@@ -39,15 +41,18 @@ export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>
-          {city.name}
-          {city.country ? `, ${city.country}` : ""}
-        </CardTitle>
-        <CardDescription>
-          {meta.icon} {current.description ?? meta.label}
-        </CardDescription>
-      </CardHeader>
+        <CardHeader>
+            <CardTitle>
+                {city.name}
+                {city.country ? `, ${city.country}` : ""}
+            </CardTitle>
+            <CardDescription>
+                {meta.icon} {current.description ?? meta.label}
+            </CardDescription>
+            <CardAction>
+                <FavoriteToggle city={city} />
+            </CardAction>
+        </CardHeader>
       <CardContent className="space-y-5">
         <div className="flex items-baseline gap-4">
           <span className="text-5xl font-semibold tracking-tight">
