@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { City } from "@/entities/city/model/types";
 import { CitySearch } from "@/features/city-search/ui/CitySearch";
 import {WeatherOverview} from "@/widgets/weather-overview/ui/WeatherOverview.tsx";
+import {FavoritesBar} from "@/widgets/favorites-bar/ui/FavoritesBar.tsx";
 
 
 const DEFAULT_CITY: City = {
@@ -20,6 +21,7 @@ function App() {
     <main className="mx-auto max-w-2xl space-y-6 px-4 py-10">
       <h1 className="text-2xl font-bold tracking-tight">Погода-агрегатор</h1>
       <CitySearch onSelect={setCity} />
+      <FavoritesBar onSelect={setCity} />
       <WeatherOverview city={city} />
     </main>
   );
