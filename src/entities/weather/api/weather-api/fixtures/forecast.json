@@ -1,0 +1,19 @@
+{
+  "location": { "name": "Moscow", "localtime_epoch": 1736938800 },
+  "current": {
+    "last_updated": "2025-01-15 14:00",
+    "temp_c": -3.9,
+    "feelslike_c": -8.4,
+    "humidity": 88,
+    "pressure_mb": 1007,
+    "wind_kph": 10.8,
+    "condition": { "code": 1219, "text": "Умеренный снег" }
+  },
+  "forecast": {
+    "forecastday": [
+      { "date": "2025-01-15", "day": { "mintemp_c": -5.2, "maxtemp_c": -2.9, "condition": { "code": 1219 } } },
+      { "date": "2025-01-16", "day": { "mintemp_c": -8.1, "maxtemp_c": -4.4, "condition": { "code": 1000 } } },
+      { "date": "2025-01-17", "day": { "mintemp_c": -11.3, "maxtemp_c": -7.6, "condition": { "code": 1003 } } }
+    ]
+  }
+}
