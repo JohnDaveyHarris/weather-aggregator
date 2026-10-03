@@ -1,0 +1,43 @@
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { Coords, WeatherReport } from "../../model/types";
+import { adaptOwmCurrent, aggregateOwmDaily } from "./adapter";
+import type { OwmCurrentResponse, OwmForecastResponse } from "./types";
+
+function owmParams({ lat, lon }: Coords) {
+    return {
+        lat,
+        lon,
+        units: "metric",
+        lang: "ru",
+        appid: import.meta.env.VITE_OWM_API_KEY,
+    };
+}
+
+export const openWeatherMapApi = createApi({
+    reducerPath: "openWeatherMapApi",
+    baseQuery: fetchBaseQuery({
+        baseUrl: "https://api.openweathermap.org/data/2.5",
+    }),
+    endpoints: (build) => ({
+        getWeather: build.query<WeatherReport, Coords>({
+            queryFn: async (coords, _api, _extra, fetchWithBQ) => {
+                const params = owmParams(coords);
+                const [currentRes, forecastRes] = await Promise.all([
+                    fetchWithBQ({ url: "/weather", params }),
+                    fetchWithBQ({ url: "/forecast", params }),
+                ]);
+
+                if (currentRes.error) return { error: currentRes.error };
+                if (forecastRes.error) return { error: forecastRes.error };
+
+                const forecast = forecastRes.data as OwmForecastResponse;
+                return {
+                    data: {
+                        current: adaptOwmCurrent(currentRes.data as OwmCurrentResponse),
+                        daily: aggregateOwmDaily(forecast.list, forecast.city.timezone),
+                    },
+                };
+            },
+        }),
+    }),
+});
