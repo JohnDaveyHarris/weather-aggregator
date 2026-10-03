@@ -9,10 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { City } from "@/entities/city/model/types";
 import type { WeatherCondition } from "@/entities/weather/model/types";
-import {openMeteoApi} from "@/entities/weather/api/open-meteo/open-meteo.api";
-import type { ProviderId } from "@/entities/weather/model/types";
-import {openWeatherMapApi} from "@/entities/weather/api/open-weather-map/open-weather-map.api.ts";
-import {skipToken} from "@reduxjs/toolkit/query";
+import type { ProviderState } from "@/entities/weather/model/useAllWeather";
 
 const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
   {
@@ -27,24 +24,15 @@ const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
 
 interface CurrentWeatherCardProps {
   city: City;
-  providerId: ProviderId;
+  state: ProviderState;
 }
 
-export function CurrentWeatherCard({ city, providerId }: CurrentWeatherCardProps) {
-  const coords = { lat: city.latitude, lon: city.longitude };
+export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
+  const { report, isLoading, isError } = state;
 
-  const openMeteo = openMeteoApi.useGetWeatherQuery(
-      providerId === "open-meteo" ? coords : skipToken,
-  );
-  const openWeatherMap = openWeatherMapApi.useGetWeatherQuery(
-      providerId === "open-weather-map" ? coords : skipToken,
-  );
-
-  const active = providerId === "open-meteo" ? openMeteo : openWeatherMap;
-  const { data: report, isLoading, isError, refetch } = active;
-
+  if (state.isUninitialized) return <NotConfiguredCard label={state.label} />;
   if (isLoading) return <LoadingCard />;
-  if (isError || !report) return <ErrorCard onRetry={refetch} />;
+  if (isError || !report) return <ErrorCard label={state.label} onRetry={state.refetch} />;
 
   const { current } = report;
   const meta = conditionMeta[current.condition];
@@ -140,17 +128,28 @@ function LoadingCard() {
   );
 }
 
-function ErrorCard({ onRetry }: { onRetry: () => void }) {
+function ErrorCard({ label, onRetry }: { label: string; onRetry: () => void }) {
   return (
-    <Card>
-      <CardContent className="space-y-3 py-8 text-center">
-        <p className="text-sm text-muted-foreground">
-          Не удалось загрузить погоду. Проверьте соединение и попробуйте ещё раз.
-        </p>
-        <Button variant="outline" onClick={onRetry}>
-          Повторить
-        </Button>
-      </CardContent>
-    </Card>
+      <Card>
+        <CardContent className="space-y-3 py-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            {label}: не удалось загрузить погоду. Проверь соединение и попробуй ещё раз.
+          </p>
+          <Button variant="outline" onClick={onRetry}>
+            Повторить
+          </Button>
+        </CardContent>
+      </Card>
+  );
+}
+
+function NotConfiguredCard({ label }: { label: string }) {
+  return (
+      <Card>
+        <CardContent className="py-8 text-center text-sm text-muted-foreground">
+          {label}: источник не настроен — добавь API-ключ в .env.local
+          (см. .env.example) и перезапусти dev-сервер.
+        </CardContent>
+      </Card>
   );
 }
