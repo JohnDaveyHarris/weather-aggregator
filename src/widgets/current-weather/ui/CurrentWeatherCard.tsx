@@ -9,7 +9,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { City } from "@/entities/city/model/types";
 import type { WeatherCondition } from "@/entities/weather/model/types";
-import { useGetWeatherQuery } from "@/entities/weather/api/open-meteo/open-meteo.api";
+import {openMeteoApi} from "@/entities/weather/api/open-meteo/open-meteo.api";
+import type { ProviderId } from "@/entities/weather/model/types";
+import {openWeatherMapApi} from "@/entities/weather/api/open-weather-map/open-weather-map.api.ts";
+import {skipToken} from "@reduxjs/toolkit/query";
 
 const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
   {
@@ -24,18 +27,21 @@ const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
 
 interface CurrentWeatherCardProps {
   city: City;
+  providerId: ProviderId;
 }
 
-export function CurrentWeatherCard({ city }: CurrentWeatherCardProps) {
-  const {
-    data: report,
-    isLoading,
-    isError,
-    refetch,
-  } = useGetWeatherQuery({
-    lat: city.latitude,
-    lon: city.longitude,
-  });
+export function CurrentWeatherCard({ city, providerId }: CurrentWeatherCardProps) {
+  const coords = { lat: city.latitude, lon: city.longitude };
+
+  const openMeteo = openMeteoApi.useGetWeatherQuery(
+      providerId === "open-meteo" ? coords : skipToken,
+  );
+  const openWeatherMap = openWeatherMapApi.useGetWeatherQuery(
+      providerId === "open-weather-map" ? coords : skipToken,
+  );
+
+  const active = providerId === "open-meteo" ? openMeteo : openWeatherMap;
+  const { data: report, isLoading, isError, refetch } = active;
 
   if (isLoading) return <LoadingCard />;
   if (isError || !report) return <ErrorCard onRetry={refetch} />;
@@ -51,7 +57,7 @@ export function CurrentWeatherCard({ city }: CurrentWeatherCardProps) {
           {city.country ? `, ${city.country}` : ""}
         </CardTitle>
         <CardDescription>
-          {meta.icon} {meta.label}
+          {meta.icon} {current.description ?? meta.label}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-5">
