@@ -1,13 +1,7 @@
 export type ProviderId = "open-meteo" | "open-weather-map" | "weather-api";
 
 export type WeatherCondition =
-  | "clear"
-  | "partly-cloudy"
-  | "cloudy"
-  | "fog"
-  | "rain"
-  | "snow"
-  | "thunderstorm";
+  "clear" | "partly-cloudy" | "cloudy" | "fog" | "rain" | "snow" | "thunderstorm";
 
 export interface Coords {
   lat: number;

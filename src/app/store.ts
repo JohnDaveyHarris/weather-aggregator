@@ -20,9 +20,7 @@ const rootReducer = {
 export const makeStore = (preloadedFavorites?: City[]) =>
   configureStore({
     reducer: rootReducer,
-    preloadedState: preloadedFavorites
-      ? { favorites: { cities: preloadedFavorites } }
-      : undefined,
+    preloadedState: preloadedFavorites ? { favorites: { cities: preloadedFavorites } } : undefined,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(
         geocodingApi.middleware,

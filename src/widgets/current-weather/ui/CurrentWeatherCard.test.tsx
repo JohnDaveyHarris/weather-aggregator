@@ -35,9 +35,7 @@ function makeState(overrides: Partial<ProviderState>): ProviderState {
 
 describe("CurrentWeatherCard", () => {
   it("рисует данные текущей погоды", () => {
-    renderWithProviders(
-      <CurrentWeatherCard city={city} state={makeState({ report })} />,
-    );
+    renderWithProviders(<CurrentWeatherCard city={city} state={makeState({ report })} />);
 
     expect(screen.getByText("-4°")).toBeInTheDocument(); // Math.round(-4.2)
     expect(screen.getByText(/ощущается как -9°/)).toBeInTheDocument();
@@ -46,9 +44,7 @@ describe("CurrentWeatherCard", () => {
   });
 
   it("в состоянии загрузки не показывает данные", () => {
-    renderWithProviders(
-      <CurrentWeatherCard city={city} state={makeState({ isLoading: true })} />,
-    );
+    renderWithProviders(<CurrentWeatherCard city={city} state={makeState({ isLoading: true })} />);
     expect(screen.queryByText("-4°")).not.toBeInTheDocument();
   });
 
@@ -79,8 +75,9 @@ describe("CurrentWeatherCard", () => {
     await user.click(screen.getByRole("button", { name: "Добавить в избранное" }));
 
     expect(store.getState().favorites.cities).toHaveLength(1);
-    expect(
-      screen.getByRole("button", { name: "Убрать из избранного" }),
-    ).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("button", { name: "Убрать из избранного" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
   });
 });

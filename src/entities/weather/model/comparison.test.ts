@@ -5,8 +5,14 @@ import type { DailyForecastItem, ProviderId, WeatherReport } from "./types";
 function fakeReport(providerId: ProviderId, daily: DailyForecastItem[]): WeatherReport {
   return {
     current: {
-      providerId, timestamp: 0, temperatureC: 0, feelsLikeC: 0,
-      humidityPct: 0, pressureHpa: 0, windSpeedMs: 0, condition: "clear",
+      providerId,
+      timestamp: 0,
+      temperatureC: 0,
+      feelsLikeC: 0,
+      humidityPct: 0,
+      pressureHpa: 0,
+      windSpeedMs: 0,
+      condition: "clear",
     },
     daily,
   };

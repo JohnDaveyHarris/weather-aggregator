@@ -1,6 +1,6 @@
 import {
   Card,
-    CardAction,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -11,18 +11,17 @@ import { Skeleton } from "@/components/ui/skeleton";
 import type { City } from "@/entities/city/model/types";
 import type { WeatherCondition } from "@/entities/weather/model/types";
 import type { ProviderState } from "@/entities/weather/model/useAllWeather";
-import {FavoriteToggle} from "@/features/favorites/ui/FavoriteToggle.tsx";
+import { FavoriteToggle } from "@/features/favorites/ui/FavoriteToggle.tsx";
 
-const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> =
-  {
-    clear: { icon: "☀️", label: "Ясно" },
-    "partly-cloudy": { icon: "⛅", label: "Переменная облачность" },
-    cloudy: { icon: "☁️", label: "Пасмурно" },
-    fog: { icon: "🌫️", label: "Туман" },
-    rain: { icon: "🌧️", label: "Дождь" },
-    snow: { icon: "❄️", label: "Снег" },
-    thunderstorm: { icon: "⛈️", label: "Гроза" },
-  };
+const conditionMeta: Record<WeatherCondition, { icon: string; label: string }> = {
+  clear: { icon: "☀️", label: "Ясно" },
+  "partly-cloudy": { icon: "⛅", label: "Переменная облачность" },
+  cloudy: { icon: "☁️", label: "Пасмурно" },
+  fog: { icon: "🌫️", label: "Туман" },
+  rain: { icon: "🌧️", label: "Дождь" },
+  snow: { icon: "❄️", label: "Снег" },
+  thunderstorm: { icon: "⛈️", label: "Гроза" },
+};
 
 interface CurrentWeatherCardProps {
   city: City;
@@ -41,18 +40,18 @@ export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
 
   return (
     <Card>
-        <CardHeader>
-            <CardTitle>
-                {city.name}
-                {city.country ? `, ${city.country}` : ""}
-            </CardTitle>
-            <CardDescription>
-                {meta.icon} {current.description ?? meta.label}
-            </CardDescription>
-            <CardAction>
-                <FavoriteToggle city={city} />
-            </CardAction>
-        </CardHeader>
+      <CardHeader>
+        <CardTitle>
+          {city.name}
+          {city.country ? `, ${city.country}` : ""}
+        </CardTitle>
+        <CardDescription>
+          {meta.icon} {current.description ?? meta.label}
+        </CardDescription>
+        <CardAction>
+          <FavoriteToggle city={city} />
+        </CardAction>
+      </CardHeader>
       <CardContent className="space-y-5">
         <div className="flex items-baseline gap-4">
           <span className="text-5xl font-semibold tracking-tight">
@@ -66,9 +65,7 @@ export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
         <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
           <div>
             <dt className="text-muted-foreground">Ветер</dt>
-            <dd className="font-medium">
-              {current.windSpeedMs.toFixed(1)} м/с
-            </dd>
+            <dd className="font-medium">{current.windSpeedMs.toFixed(1)} м/с</dd>
           </div>
           <div>
             <dt className="text-muted-foreground">Влажность</dt>
@@ -76,9 +73,7 @@ export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
           </div>
           <div>
             <dt className="text-muted-foreground">Давление</dt>
-            <dd className="font-medium">
-              {Math.round(current.pressureHpa * 0.75006)} мм рт. ст.
-            </dd>
+            <dd className="font-medium">{Math.round(current.pressureHpa * 0.75006)} мм рт. ст.</dd>
           </div>
         </dl>
 
@@ -86,20 +81,12 @@ export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
           {report.daily.map((day) => {
             const dayMeta = conditionMeta[day.condition];
             return (
-              <div
-                key={day.date}
-                className="flex flex-col items-center gap-1 text-center"
-              >
-                <span className="text-xs text-muted-foreground">
-                  {formatWeekday(day.date)}
-                </span>
+              <div key={day.date} className="flex flex-col items-center gap-1 text-center">
+                <span className="text-xs text-muted-foreground">{formatWeekday(day.date)}</span>
                 <span>{dayMeta.icon}</span>
                 <span className="text-xs font-medium">
                   {Math.round(day.tempMaxC)}°
-                  <span className="text-muted-foreground">
-                    {" "}
-                    {Math.round(day.tempMinC)}°
-                  </span>
+                  <span className="text-muted-foreground"> {Math.round(day.tempMinC)}°</span>
                 </span>
               </div>
             );
@@ -135,26 +122,26 @@ function LoadingCard() {
 
 function ErrorCard({ label, onRetry }: { label: string; onRetry: () => void }) {
   return (
-      <Card>
-        <CardContent className="space-y-3 py-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            {label}: не удалось загрузить погоду. Проверь соединение и попробуй ещё раз.
-          </p>
-          <Button variant="outline" onClick={onRetry}>
-            Повторить
-          </Button>
-        </CardContent>
-      </Card>
+    <Card>
+      <CardContent className="space-y-3 py-8 text-center">
+        <p className="text-sm text-muted-foreground">
+          {label}: не удалось загрузить погоду. Проверь соединение и попробуй ещё раз.
+        </p>
+        <Button variant="outline" onClick={onRetry}>
+          Повторить
+        </Button>
+      </CardContent>
+    </Card>
   );
 }
 
 function NotConfiguredCard({ label }: { label: string }) {
   return (
-      <Card>
-        <CardContent className="py-8 text-center text-sm text-muted-foreground">
-          {label}: источник не настроен — добавь API-ключ в .env.local
-          (см. .env.example) и перезапусти dev-сервер.
-        </CardContent>
-      </Card>
+    <Card>
+      <CardContent className="py-8 text-center text-sm text-muted-foreground">
+        {label}: источник не настроен — добавь API-ключ в .env.local (см. .env.example) и
+        перезапусти dev-сервер.
+      </CardContent>
+    </Card>
   );
 }

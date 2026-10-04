@@ -8,21 +8,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  buildComparisonRows,
-  type ProviderSeries,
-} from "@/entities/weather/model/comparison";
-import {
-  PROVIDER_COLORS,
-  PROVIDER_LABELS,
-} from "@/entities/weather/model/providers";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { buildComparisonRows, type ProviderSeries } from "@/entities/weather/model/comparison";
+import { PROVIDER_COLORS, PROVIDER_LABELS } from "@/entities/weather/model/providers";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 function formatTick(date: string): string {
   // полдень в дате — чтобы день недели не «съезжал» из-за пояса
@@ -40,9 +28,7 @@ export function ForecastComparisonChart({ series }: { series: ProviderSeries[] }
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">
-          Прогноз макс. температуры по источникам
-        </CardTitle>
+        <CardTitle className="text-base">Прогноз макс. температуры по источникам</CardTitle>
         <CardDescription>
           Модели прогноза расходятся на 1-3 °C - в этом и смысл агрегатора
         </CardDescription>
@@ -60,7 +46,10 @@ export function ForecastComparisonChart({ series }: { series: ProviderSeries[] }
                 domain={["auto", "auto"]}
                 tickFormatter={(v) => `${Math.round(Number(v))}°`}
               />
-              <Tooltip labelFormatter={(label) => formatTick(String(label))} formatter={(value) => `${value} °C`} />
+              <Tooltip
+                labelFormatter={(label) => formatTick(String(label))}
+                formatter={(value) => `${value} °C`}
+              />
               <Legend />
               {series.map((s) => (
                 <Line

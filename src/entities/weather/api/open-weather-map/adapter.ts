@@ -26,10 +26,7 @@ export function aggregateOwmDaily(
   list: OwmForecastItem[],
   timezoneOffsetSec: number,
 ): DailyForecastItem[] {
-  const byDate = new Map<
-    string,
-    { min: number; max: number; noonId: number; noonDist: number }
-  >();
+  const byDate = new Map<string, { min: number; max: number; noonId: number; noonDist: number }>();
 
   for (const item of list) {
     const local = new Date((item.dt + timezoneOffsetSec) * 1000);

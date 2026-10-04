@@ -9,9 +9,7 @@ export const handlers = [
   http.get("https://geocoding-api.open-meteo.com/v1/search", () =>
     HttpResponse.json(geocodingFixture),
   ),
-  http.get("https://api.open-meteo.com/v1/forecast", () =>
-    HttpResponse.json(openMeteoFixture),
-  ),
+  http.get("https://api.open-meteo.com/v1/forecast", () => HttpResponse.json(openMeteoFixture)),
   http.get("https://api.openweathermap.org/data/2.5/weather", () =>
     HttpResponse.json(owmCurrentFixture),
   ),

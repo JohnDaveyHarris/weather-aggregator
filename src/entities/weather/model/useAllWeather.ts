@@ -19,9 +19,7 @@ export function useAllWeather(coords: Coords): ProviderState[] {
   const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY; // ← читаем на каждый рендер
   const openMeteo = openMeteoApi.useGetWeatherQuery(coords);
   const openWeatherMap = openWeatherMapApi.useGetWeatherQuery(coords);
-  const weatherApi = weatherApiCom.useGetWeatherQuery(
-      weatherApiKey ? coords : skipToken,
-  );
+  const weatherApi = weatherApiCom.useGetWeatherQuery(weatherApiKey ? coords : skipToken);
 
   return [
     {

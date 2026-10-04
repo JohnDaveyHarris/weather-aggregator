@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import favoritesReducer, {
-  removeFavorite,
-  toggleFavorite,
-} from "./favorites.slice";
+import favoritesReducer, { removeFavorite, toggleFavorite } from "./favorites.slice";
 import type { City } from "@/entities/city/model/types";
 
 const moscow: City = { id: 524901, name: "Москва", latitude: 55.75, longitude: 37.62 };

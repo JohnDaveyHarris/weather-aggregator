@@ -8,10 +8,7 @@ interface Params extends Omit<RenderOptions, "wrapper"> {
 }
 
 /** Рендерит UI внутри Provider со свежим стором; возвращает стор для ассертов */
-export function renderWithProviders(
-  ui: ReactElement,
-  { store, ...options }: Params = {},
-) {
+export function renderWithProviders(ui: ReactElement, { store, ...options }: Params = {}) {
   const finalStore = store ?? makeStore();
 
   function Wrapper({ children }: { children: ReactNode }) {

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import type { City } from "@/entities/city/model/types";
 import { CitySearch } from "@/features/city-search/ui/CitySearch";
-import {WeatherOverview} from "@/widgets/weather-overview/ui/WeatherOverview.tsx";
-import {FavoritesBar} from "@/widgets/favorites-bar/ui/FavoritesBar.tsx";
-
+import { WeatherOverview } from "@/widgets/weather-overview/ui/WeatherOverview.tsx";
+import { FavoritesBar } from "@/widgets/favorites-bar/ui/FavoritesBar.tsx";
 
 const DEFAULT_CITY: City = {
   id: 524901,

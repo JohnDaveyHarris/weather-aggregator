@@ -1,8 +1,4 @@
-import type {
-  DailyForecastItem,
-  WeatherReport,
-  WeatherSnapshot,
-} from "../../model/types";
+import type { DailyForecastItem, WeatherReport, WeatherSnapshot } from "../../model/types";
 import type { OpenMeteoForecastResponse } from "./types";
 import { mapWmoCodeToCondition } from "./wmo-codes";
 
@@ -14,8 +10,7 @@ export function adaptOpenMeteo(raw: OpenMeteoForecastResponse): WeatherReport {
     // Open-Meteo отдаёт локальное время точки без смещения. Приписываем "Z",
     // парсим как UTC и вычитаем смещение - получаем истиный UTC epoch.
     // Важно, иначе тесты будут зависеть от часового пояса машины.
-    timestamp:
-      Math.floor(Date.parse(`${c.time}Z`) / 1000) - raw.utc_offset_seconds,
+    timestamp: Math.floor(Date.parse(`${c.time}Z`) / 1000) - raw.utc_offset_seconds,
     temperatureC: c.temperature_2m,
     feelsLikeC: c.apparent_temperature,
     humidityPct: c.relative_humidity_2m,

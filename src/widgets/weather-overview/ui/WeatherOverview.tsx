@@ -12,8 +12,7 @@ export function WeatherOverview({ city }: { city: City }) {
   const states = useAllWeather(coords);
   const [providerId, setProviderId] = useState<ProviderId>("open-meteo");
 
-  const selected: ProviderState =
-    states.find((s) => s.providerId === providerId) ?? states[0];
+  const selected: ProviderState = states.find((s) => s.providerId === providerId) ?? states[0];
   const series = states.flatMap((s) =>
     s.report ? [{ providerId: s.providerId, report: s.report }] : [],
   );

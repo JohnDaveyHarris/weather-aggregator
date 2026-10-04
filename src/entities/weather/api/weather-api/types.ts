@@ -1,7 +1,7 @@
 export interface WeatherApiForecastResponse {
   location: {
-      /** UTC epoch, секунды — текущее время точки */
-      localtime_epoch: number;
+    /** UTC epoch, секунды — текущее время точки */
+    localtime_epoch: number;
   };
   current: {
     temp_c: number;

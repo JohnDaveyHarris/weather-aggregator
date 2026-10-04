@@ -63,9 +63,7 @@ describe("WeatherOverview", () => {
     const user = userEvent.setup();
     renderWithProviders(<WeatherOverview city={city} />);
 
-    expect(
-      await screen.findByText(/не удалось загрузить погоду/),
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/не удалось загрузить погоду/)).toBeInTheDocument();
     // один отчёт → разброса нет
     expect(screen.queryByText(/Разброс:/)).not.toBeInTheDocument();
 

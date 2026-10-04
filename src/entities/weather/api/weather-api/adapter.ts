@@ -1,8 +1,4 @@
-import type {
-  DailyForecastItem,
-  WeatherReport,
-  WeatherSnapshot,
-} from "../../model/types";
+import type { DailyForecastItem, WeatherReport, WeatherSnapshot } from "../../model/types";
 import type { WeatherApiForecastResponse } from "./types";
 import { mapWeatherApiCodeToCondition } from "./weatherapi-codes";
 

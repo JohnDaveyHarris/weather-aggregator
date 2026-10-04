@@ -23,10 +23,7 @@ describe("loadFavorites / saveFavorites", () => {
   });
 
   it("мусор среди данных фильтруется", () => {
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify([moscow, { id: "x" }, null, 42]),
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([moscow, { id: "x" }, null, 42]));
     expect(loadFavorites()).toEqual([moscow]);
   });
 });

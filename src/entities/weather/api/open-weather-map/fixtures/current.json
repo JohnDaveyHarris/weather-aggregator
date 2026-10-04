@@ -1,6 +1,13 @@
 {
   "weather": [{ "id": 600, "main": "Snow", "description": "небольшой снег", "icon": "13d" }],
-  "main": { "temp": -4.5, "feels_like": -9.2, "temp_min": -5.1, "temp_max": -3.8, "pressure": 1013, "humidity": 85 },
+  "main": {
+    "temp": -4.5,
+    "feels_like": -9.2,
+    "temp_min": -5.1,
+    "temp_max": -3.8,
+    "pressure": 1013,
+    "humidity": 85
+  },
   "wind": { "speed": 4 },
   "dt": 1736942400,
   "timezone": 10800,

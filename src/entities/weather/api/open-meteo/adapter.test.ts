@@ -20,9 +20,7 @@ describe("adaptOpenMeteo", () => {
 
   it("переводит локальное время точки в UTC epoch", () => {
     // "2025-01-15T14:00" при UTC+3 - это 11:00 UTC
-    expect(report.current.timestamp).toBe(
-      Date.parse("2025-01-15T11:00:00Z") / 1000,
-    );
+    expect(report.current.timestamp).toBe(Date.parse("2025-01-15T11:00:00Z") / 1000);
   });
 
   it("адаптирует дневной прогноз", () => {

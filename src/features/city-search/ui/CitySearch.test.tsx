@@ -22,9 +22,7 @@ describe("CitySearch", () => {
     expect(await screen.findByText("Москва")).toBeInTheDocument();
 
     await user.click(screen.getByText("Москва"));
-    expect(onSelect).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 524901, name: "Москва" }),
-    );
+    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: 524901, name: "Москва" }));
   });
 
   it("не отправляет запрос, пока введён 1 символ", async () => {
@@ -46,9 +44,7 @@ describe("CitySearch", () => {
   });
 
   it("показывает «Ничего не найдено» на пустой результат", async () => {
-    server.use(
-      http.get(SEARCH_URL, () => HttpResponse.json({ generationtime_ms: 0.1 })),
-    );
+    server.use(http.get(SEARCH_URL, () => HttpResponse.json({ generationtime_ms: 0.1 })));
 
     const user = userEvent.setup();
     renderWithProviders(<CitySearch onSelect={vi.fn()} />);
