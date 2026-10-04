@@ -15,13 +15,12 @@ export interface ProviderState {
   refetch: () => void;
 }
 
-const WEATHER_API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
-
 export function useAllWeather(coords: Coords): ProviderState[] {
+  const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY; // ← читаем на каждый рендер
   const openMeteo = openMeteoApi.useGetWeatherQuery(coords);
   const openWeatherMap = openWeatherMapApi.useGetWeatherQuery(coords);
   const weatherApi = weatherApiCom.useGetWeatherQuery(
-    WEATHER_API_KEY ? coords : skipToken,
+      weatherApiKey ? coords : skipToken,
   );
 
   return [
