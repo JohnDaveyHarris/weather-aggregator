@@ -42,6 +42,7 @@ describe("WeatherOverview", () => {
   });
 
   it("без ключа WeatherAPI — заглушка и разброс по двум", async () => {
+    vi.stubEnv("VITE_WEATHER_API_KEY", "");
     const user = userEvent.setup();
     renderWithProviders(<WeatherOverview city={city} />);
 
@@ -52,6 +53,7 @@ describe("WeatherOverview", () => {
   });
 
   it("ошибка одного источника не мешает другим", async () => {
+    vi.stubEnv("VITE_WEATHER_API_KEY", "");
     server.use(
       http.get("https://api.open-meteo.com/v1/forecast", () =>
         HttpResponse.json({ error: "boom" }, { status: 500 }),
