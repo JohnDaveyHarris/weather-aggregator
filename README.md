@@ -1,6 +1,6 @@
 # Weather Aggregator
 
-Агрегатор погоды: запрашивает несколько источников (**Open-Meteo**, **OpenWeatherMap**, **WeatherAPI.com**), 
+Агрегатор погоды: запрашивает несколько источников (**Open-Meteo**, **OpenWeatherMap**, **WeatherAPI.com**),
 нормализует их к единой модели и показывает расхождения прогнозов.
 
 [![CI](https://github.com/JohnDaveyHarris/weather-aggregator/actions/workflows/ci.yml/badge.svg)](https://github.com/JohnDaveyHarris/weather-aggregator/actions/workflows/ci.yml)
