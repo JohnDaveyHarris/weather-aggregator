@@ -40,8 +40,8 @@ export default defineConfig(({ mode }) => {
             url.searchParams.set("key", env.WEATHER_API_KEY ?? "");
             // /api/weatherapi/forecast → /v1/forecast.json (у апстрима расширение в пути)
             url.pathname = url.pathname.replace(
-                /^\/api\/weatherapi\/forecast$/,
-                "/v1/forecast.json",
+              /^\/api\/weatherapi\/forecast$/,
+              "/v1/forecast.json",
             );
             return url.pathname + url.search;
           },
