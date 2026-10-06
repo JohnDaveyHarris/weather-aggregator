@@ -21,10 +21,7 @@ export async function forward(
   try {
     const upstream = await fetch(target);
     res.status(upstream.status);
-    res.setHeader(
-      "content-type",
-      upstream.headers.get("content-type") ?? "application/json",
-    );
+    res.setHeader("content-type", upstream.headers.get("content-type") ?? "application/json");
     res.send(await upstream.text());
   } catch {
     res.status(502).json({ message: "Upstream request failed" });

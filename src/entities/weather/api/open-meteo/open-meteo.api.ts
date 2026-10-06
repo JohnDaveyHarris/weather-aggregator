@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Coords, WeatherReport } from "../../model/types";
 import { adaptOpenMeteo } from "./adapter";
-import {apiUrl} from "@/shared/lib/api-url.ts";
+import { apiUrl } from "@/shared/lib/api-url.ts";
 
 export const openMeteoApi = createApi({
   reducerPath: "openMeteoApi",

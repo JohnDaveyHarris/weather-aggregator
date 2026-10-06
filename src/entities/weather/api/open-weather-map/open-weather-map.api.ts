@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Coords, WeatherReport } from "../../model/types";
 import { adaptOwmCurrent, aggregateOwmDaily } from "./adapter";
 import type { OwmCurrentResponse, OwmForecastResponse } from "./types";
-import {apiUrl} from "@/shared/lib/api-url.ts";
+import { apiUrl } from "@/shared/lib/api-url.ts";
 
 export const openWeatherMapApi = createApi({
   reducerPath: "openWeatherMapApi",
-  baseQuery: fetchBaseQuery({ baseUrl:  apiUrl("/api/open-weather-map") }),
+  baseQuery: fetchBaseQuery({ baseUrl: apiUrl("/api/open-weather-map") }),
   endpoints: (build) => ({
     getWeather: build.query<WeatherReport, Coords>({
       queryFn: async ({ lat, lon }, _api, _extra, fetchWithBQ) => {
