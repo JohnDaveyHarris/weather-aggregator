@@ -4,19 +4,20 @@ import owmCurrentFixture from "@/entities/weather/api/open-weather-map/fixtures/
 import owmForecastFixture from "@/entities/weather/api/open-weather-map/fixtures/forecast.json";
 import weatherApiFixture from "@/entities/weather/api/weather-api/fixtures/forecast.json";
 import geocodingFixture from "@/entities/city/api/geocoding/fixtures/search.json";
+import {apiUrl} from "@/shared/lib/api-url.ts";
 
 export const handlers = [
   http.get("https://geocoding-api.open-meteo.com/v1/search", () =>
     HttpResponse.json(geocodingFixture),
   ),
-  http.get("https://api.open-meteo.com/v1/forecast", () => HttpResponse.json(openMeteoFixture)),
-  http.get("https://api.openweathermap.org/data/2.5/weather", () =>
+  http.get(apiUrl("/api/open-meteo/v1/forecast"), () => HttpResponse.json(openMeteoFixture)),
+  http.get(apiUrl("/api/open-weather-map/weather"), () =>
     HttpResponse.json(owmCurrentFixture),
   ),
-  http.get("https://api.openweathermap.org/data/2.5/forecast", () =>
+  http.get(apiUrl("/api/open-weather-map/forecast"), () =>
     HttpResponse.json(owmForecastFixture),
   ),
-  http.get("https://api.weatherapi.com/v1/forecast.json", () =>
+  http.get(apiUrl("/api/weatherapi/forecast.json"), () =>
     HttpResponse.json(weatherApiFixture),
   ),
 ];
