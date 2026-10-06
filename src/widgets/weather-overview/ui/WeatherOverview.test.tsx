@@ -41,7 +41,7 @@ describe("WeatherOverview", () => {
 
   it("ошибка weatherapi не мешает остальным", async () => {
     server.use(
-      http.get("/api/weatherapi/forecast.json", () =>
+      http.get("/api/weatherapi/forecast", () =>
         HttpResponse.json({ message: "no key" }, { status: 401 }),
       ),
     );

@@ -13,5 +13,5 @@ export const handlers = [
   http.get(apiUrl("/api/open-meteo/v1/forecast"), () => HttpResponse.json(openMeteoFixture)),
   http.get(apiUrl("/api/open-weather-map/weather"), () => HttpResponse.json(owmCurrentFixture)),
   http.get(apiUrl("/api/open-weather-map/forecast"), () => HttpResponse.json(owmForecastFixture)),
-  http.get(apiUrl("/api/weatherapi/forecast.json"), () => HttpResponse.json(weatherApiFixture)),
+  http.get(apiUrl("/api/weatherapi/forecast"), () => HttpResponse.json(weatherApiFixture)),
 ];

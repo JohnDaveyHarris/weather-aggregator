@@ -38,7 +38,11 @@ export default defineConfig(({ mode }) => {
           rewrite: (path) => {
             const url = new URL(path, "http://local");
             url.searchParams.set("key", env.WEATHER_API_KEY ?? "");
-            url.pathname = url.pathname.replace(/^\/api\/weatherapi/, "/v1");
+            // /api/weatherapi/forecast → /v1/forecast.json (у апстрима расширение в пути)
+            url.pathname = url.pathname.replace(
+                /^\/api\/weatherapi\/forecast$/,
+                "/v1/forecast.json",
+            );
             return url.pathname + url.search;
           },
         },

@@ -9,7 +9,7 @@ export const weatherApiCom = createApi({
   endpoints: (build) => ({
     getWeather: build.query<WeatherReport, Coords>({
       query: ({ lat, lon }) => ({
-        url: "/forecast.json",
+        url: "/forecast",
         params: {
           q: `${lat},${lon}`,
           days: 3, // максимум free-тарифа
