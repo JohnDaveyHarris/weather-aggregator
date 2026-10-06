@@ -1,4 +1,3 @@
-import { skipToken } from "@reduxjs/toolkit/query";
 import { openMeteoApi } from "../api/open-meteo/open-meteo.api";
 import { openWeatherMapApi } from "../api/open-weather-map/open-weather-map.api";
 import { weatherApiCom } from "../api/weather-api/weather-api.api";
@@ -16,10 +15,9 @@ export interface ProviderState {
 }
 
 export function useAllWeather(coords: Coords): ProviderState[] {
-  const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY; // ← читаем на каждый рендер
   const openMeteo = openMeteoApi.useGetWeatherQuery(coords);
   const openWeatherMap = openWeatherMapApi.useGetWeatherQuery(coords);
-  const weatherApi = weatherApiCom.useGetWeatherQuery(weatherApiKey ? coords : skipToken);
+  const weatherApi = weatherApiCom.useGetWeatherQuery(coords);
 
   return [
     {

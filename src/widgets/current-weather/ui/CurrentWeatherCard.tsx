@@ -31,7 +31,6 @@ interface CurrentWeatherCardProps {
 export function CurrentWeatherCard({ city, state }: CurrentWeatherCardProps) {
   const { report, isLoading, isError } = state;
 
-  if (state.isUninitialized) return <NotConfiguredCard label={state.label} />;
   if (isLoading) return <LoadingCard />;
   if (isError || !report) return <ErrorCard label={state.label} onRetry={state.refetch} />;
 
@@ -130,17 +129,6 @@ function ErrorCard({ label, onRetry }: { label: string; onRetry: () => void }) {
         <Button variant="outline" onClick={onRetry}>
           Повторить
         </Button>
-      </CardContent>
-    </Card>
-  );
-}
-
-function NotConfiguredCard({ label }: { label: string }) {
-  return (
-    <Card>
-      <CardContent className="py-8 text-center text-sm text-muted-foreground">
-        {label}: источник не настроен — добавь API-ключ в .env.local (см. .env.example) и
-        перезапусти dev-сервер.
       </CardContent>
     </Card>
   );

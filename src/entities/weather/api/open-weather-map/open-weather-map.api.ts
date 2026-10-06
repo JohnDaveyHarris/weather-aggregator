@@ -2,26 +2,15 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Coords, WeatherReport } from "../../model/types";
 import { adaptOwmCurrent, aggregateOwmDaily } from "./adapter";
 import type { OwmCurrentResponse, OwmForecastResponse } from "./types";
-
-function owmParams({ lat, lon }: Coords) {
-  return {
-    lat,
-    lon,
-    units: "metric",
-    lang: "ru",
-    appid: import.meta.env.VITE_OWM_API_KEY,
-  };
-}
+import { apiUrl } from "@/shared/lib/api-url.ts";
 
 export const openWeatherMapApi = createApi({
   reducerPath: "openWeatherMapApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.openweathermap.org/data/2.5",
-  }),
+  baseQuery: fetchBaseQuery({ baseUrl: apiUrl("/api/open-weather-map") }),
   endpoints: (build) => ({
     getWeather: build.query<WeatherReport, Coords>({
-      queryFn: async (coords, _api, _extra, fetchWithBQ) => {
-        const params = owmParams(coords);
+      queryFn: async ({ lat, lon }, _api, _extra, fetchWithBQ) => {
+        const params = { lat, lon, units: "metric", lang: "ru" };
         const [currentRes, forecastRes] = await Promise.all([
           fetchWithBQ({ url: "/weather", params }),
           fetchWithBQ({ url: "/forecast", params }),

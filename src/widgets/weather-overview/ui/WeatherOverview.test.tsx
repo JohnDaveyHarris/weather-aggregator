@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { http, HttpResponse } from "msw";
 import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -18,7 +18,6 @@ const city: City = {
 
 describe("WeatherOverview", () => {
   it("показывает данные всех провайдеров и переключается по табам", async () => {
-    vi.stubEnv("VITE_WEATHER_API_KEY", "test-key");
     const user = userEvent.setup();
     renderWithProviders(<WeatherOverview city={city} />);
 
@@ -33,7 +32,6 @@ describe("WeatherOverview", () => {
   });
 
   it("считает разброс по всем трём источникам", async () => {
-    vi.stubEnv("VITE_WEATHER_API_KEY", "test-key");
     renderWithProviders(<WeatherOverview city={city} />);
 
     // фикстуры: open-meteo -4.2, owm -4.5, weatherapi -3.9
@@ -41,33 +39,35 @@ describe("WeatherOverview", () => {
     expect(screen.getByText(/Прогноз макс. температуры/)).toBeInTheDocument();
   });
 
-  it("без ключа WeatherAPI — заглушка и разброс по двум", async () => {
-    vi.stubEnv("VITE_WEATHER_API_KEY", "");
+  it("ошибка weatherapi не мешает остальным", async () => {
+    server.use(
+      http.get("/api/weatherapi/forecast.json", () =>
+        HttpResponse.json({ message: "no key" }, { status: 401 }),
+      ),
+    );
     const user = userEvent.setup();
     renderWithProviders(<WeatherOverview city={city} />);
 
+    // разброс считается по двум живым источникам
     expect(await screen.findByText("Разброс: -4.5…-4.2 °C")).toBeInTheDocument();
 
     await user.click(screen.getByRole("tab", { name: "WeatherAPI.com" }));
-    expect(await screen.findByText(/источник не настроен/)).toBeInTheDocument();
+    expect(await screen.findByText(/не удалось загрузить погоду/)).toBeInTheDocument();
   });
 
   it("ошибка одного источника не мешает другим", async () => {
-    vi.stubEnv("VITE_WEATHER_API_KEY", "");
     server.use(
-      http.get("https://api.open-meteo.com/v1/forecast", () =>
+      http.get("/api/open-meteo/v1/forecast", () =>
         HttpResponse.json({ error: "boom" }, { status: 500 }),
       ),
     );
-
     const user = userEvent.setup();
     renderWithProviders(<WeatherOverview city={city} />);
 
     expect(await screen.findByText(/не удалось загрузить погоду/)).toBeInTheDocument();
-    // один отчёт → разброса нет
-    expect(screen.queryByText(/Разброс:/)).not.toBeInTheDocument();
+    // OWM и WeatherAPI живы -> разброс по двум
+    expect(await screen.findByText("Разброс: -4.5…-3.9 °C")).toBeInTheDocument();
 
-    // а OWM при этом жив
     await user.click(screen.getByRole("tab", { name: "OpenWeatherMap" }));
     expect(await screen.findByText(/небольшой снег/)).toBeInTheDocument();
   });

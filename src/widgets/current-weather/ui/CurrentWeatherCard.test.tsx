@@ -59,13 +59,6 @@ describe("CurrentWeatherCard", () => {
     expect(refetch).toHaveBeenCalledOnce();
   });
 
-  it("для ненастроенного провайдера показывает заглушку", () => {
-    renderWithProviders(
-      <CurrentWeatherCard city={city} state={makeState({ isUninitialized: true })} />,
-    );
-    expect(screen.getByText(/источник не настроен/)).toBeInTheDocument();
-  });
-
   it("звезда добавляет город в избранное", async () => {
     const user = userEvent.setup();
     const { store } = renderWithProviders(
